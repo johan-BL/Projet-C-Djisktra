@@ -49,8 +49,8 @@ int get_profondeur(grille_t grille) {
 coord_t inferieur_gauche(grille_t grille) {
     coord_t coord;
     if ((grille.largeur > 0) && (grille.profondeur > 0)) {
-    coord.abscisse = 0;
-    coord.ordonnee = 0;}
+        coord.abscisse = 0;
+        coord.ordonnee = 0;}
     else {
         NULL;}
     return coord;

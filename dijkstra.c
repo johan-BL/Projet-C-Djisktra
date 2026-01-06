@@ -18,6 +18,19 @@
  * @return coût pour passer de courant à suivant
  */
 static float cout(grille_t grille, coord_t courant, coord_t suivant) {
+    float cout = -1.0;
+    if ((dans_les_bornes (grille, courant)) && (dans_les_bornes (grille, suivant))){
+        cout = distance_euclidienne (courant, suivant);
+        float denivele = get_hauteur (grille, suivant) - get_hauteur (grille, courant);
+        if (denivele > 0){
+            cout = cout + denivele;}
+        else{
+            NULL;}
+    }
+    else {
+        NULL;}
+    return cout;
+        
 }
 
 /**
@@ -41,9 +54,40 @@ float dijkstra(
         grille_t grille, 
         coord_t source, coord_t destination, 
         float seuil,
-        liste_noeud_t** chemin
-    ) {
-    // TODO
+        liste_noeud_t** chemin) {
+    float retour;
+    if ((!dans_les_bornes (grille, source)) || (!dans_les_bornes (grille, destination))){
+        retour = -1.0;}
+    else {
+        NULL;}
+    liste_noeud_t A_Visiter = creer_liste();
+    liste_noeud_t Visites = creer_liste();
+    inserer_noeud_liste (A_Visiter, source, source, 0);
+    while (A_Visiter != NULL) {
+        coord_t courant = min_noeud_liste (A_Visiter);
+        float cout_visite = cout_noeud_liste (A_Visiter, courant);
+        coord_t precedent_visite = precedent_noeud_liste (A_Visiter, courant);
+        inserer_noeud_liste (Visites, courant, precedent_visite, cout_visite);
+        supprimer_noeud_liste (A_Visiter, courant);
+        size_t nb_voisins = get_voisins(grille, courant, seuil, voisins);
+        for (size_t i = 0; i < nb_voisins; i++) {
+            if (contient_noeud_liste (Visites, *voisins[i])) {
+                NULL;}
+            else {
+                float delta_prime = cout_noeud_liste (Visites, courant) + cout (grille, courant, *voisins[i]);
+                float delta = 0.0;
+                if (contient_noeud_liste (A_Visiter, *voisins[i])) {
+                    delta = cout_noeud_liste (A_Visiter, *voisins[i]);}
+                else {
+                    delta = INFINITY;}
+                if (delta_prime < delta) {
+                    inserer_noeud_liste (A_Visiter, *voisins[i], courant, delta_prime);}
+                else {
+                    NULL;
+                }
+            }
+        }
+    }
 }
 
 
