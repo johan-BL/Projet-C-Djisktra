@@ -23,6 +23,9 @@ liste_noeud_t creer_liste() {
 }
 
 void detruire_liste(liste_noeud_t liste_ptr) {
+    if (liste_ptr == NULL) {
+        return;
+    }
     liste_noeud_t courant = liste_ptr;
     while (courant != NULL) {
         liste_noeud_t a_supprimer = courant;
@@ -32,6 +35,9 @@ void detruire_liste(liste_noeud_t liste_ptr) {
 }
 
 bool est_vide_liste(const liste_noeud_t liste_ptr) {
+    if (liste_ptr == NULL) {
+        return false;
+    }
     if (liste_ptr->suivant == NULL) {
         return true;
     }
@@ -41,6 +47,9 @@ bool est_vide_liste(const liste_noeud_t liste_ptr) {
 }
 
 bool contient_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
+    if (liste_ptr == NULL) {
+        return false;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL && (!memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
@@ -54,6 +63,9 @@ bool contient_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
 }
 
 bool contient_arrete_liste (const liste_noeud_t liste_ptr, T_arrete arrete) {
+    if (liste_ptr == NULL) {
+        return false;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL && !((memes_coord (courant->precedent, arrete.source)) && (memes_coord (courant->noeud, arrete.destination)))) {
         courant = courant->suivant;
@@ -68,6 +80,9 @@ bool contient_arrete_liste (const liste_noeud_t liste_ptr, T_arrete arrete) {
 
 double cout_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
     double cout = INFINITY;
+    if (liste_ptr == NULL) {
+        return cout;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
@@ -81,6 +96,9 @@ double cout_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
 
 coord_t precedent_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
     coord_t precedent = (coord_t){-1,-1};
+    if (liste_ptr == NULL) {
+        return precedent;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
@@ -95,6 +113,9 @@ coord_t precedent_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
 coord_t min_noeud_liste(const liste_noeud_t liste_ptr) {
     double min = INFINITY;
     coord_t noeud_min = (coord_t){-1,-1};
+    if (liste_ptr == NULL) {
+        return noeud_min;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL) {
         if (courant->cout < min) {
@@ -108,6 +129,9 @@ coord_t min_noeud_liste(const liste_noeud_t liste_ptr) {
 }
 
 void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precedent, double cout) {
+    if (liste_ptr == NULL) {
+        return return;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
@@ -127,6 +151,9 @@ void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precede
 }
 
 void supprimer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud) {
+    if (liste_ptr == NULL) {
+        return return;
+    }
     liste_noeud_t courant = liste_ptr->suivant;
     liste_noeud_t precedent = NULL;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
