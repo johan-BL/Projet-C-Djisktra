@@ -4,7 +4,10 @@
 // TODO : type liste_noeud_t
 typedef struct T_Cellule* liste_noeud_t;
 // TODO : typedef
-typedef struct T_arrete;
+typedef struct T_arrete {
+    coord_t source;
+    coord_t destination;
+};
 
 /**
  * creer_liste : crée une liste de noeuds, initialement vide
@@ -32,7 +35,7 @@ void detruire_liste(liste_noeud_t liste_ptr);
  * @param liste [in] liste à tester
  * @return vrai ssi la liste ne contient aucun élément
  */
-bool est_vide_liste(liste_noeud_t liste_ptr);
+bool est_vide_liste(const liste_noeud_t liste_ptr);
 
 /**
  * contient_noeud_liste : test si le noeud donné appartient à la liste donnée.
@@ -43,7 +46,7 @@ bool est_vide_liste(liste_noeud_t liste_ptr);
  * @param noeud noeud à rechercher
  * @return vrai ssi noeud est dans liste
  */
-bool contient_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
+bool contient_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud);
 
 /**
  * contient_arrete_liste : test si l'arrête donnée appartient à la liste donnée.
@@ -57,7 +60,7 @@ bool contient_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
  * @param destination noeud destination de l'arrête
  * @return vrai ssi l'arrête (source,destination) est dans liste
  */
-bool contient_arrete_liste (liste_noeud_t liste_ptr, T_arrete arrete);
+bool contient_arrete_liste (const liste_noeud_t liste_ptr, T_arrete arrete);
 
 /**
  * cout_noeud_liste : récupère le coût associé au noeud donné dans la liste donnée.
@@ -70,7 +73,7 @@ bool contient_arrete_liste (liste_noeud_t liste_ptr, T_arrete arrete);
  * @param noeud noeud dont on veut la distance
  * @return coût associé à noeud dans liste ou INFINITY si noeud n'est pas dans liste
  */
-int cout_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
+double cout_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud);
 
 /**
  * precedent_noeud_liste : récupère le noeud précédent associé au noeud donné dans la liste donnée.
@@ -85,7 +88,7 @@ int cout_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
  * @param noeud noeud dont on veut le précédent
  * @return précédent associé au noeud dans la liste (ou coordonnées négatives si le noeud n'existe pas)
  */
-T_noeud precedent_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
+coord_t precedent_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud);
 
 /**
  * min_noeud_liste : trouve le (un) noeud de la liste dont le coût heuristique associé est le plus petit.
@@ -97,7 +100,7 @@ T_noeud precedent_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
  * @param liste [in] liste à parcourir
  * @return noeud qui minimise le coût heuristique
  */
-T_noeud min_noeud_liste(liste_noeud_t liste_ptr);
+coord_t min_noeud_liste(const liste_noeud_t liste_ptr);
 
 /**
  * inserer_noeud_liste : modifie les valeurs associées au noeud donné dans la liste donnée, et ajoute
@@ -114,7 +117,7 @@ T_noeud min_noeud_liste(liste_noeud_t liste_ptr);
  * @param precedent nouveau noeud précédent pour noeud
  * @param cout nouveau coût pour noeud
  */
-void inserer_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud, T_noeud precedent, int cout);
+void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precedent, double cout);
 
 /**
  * supprimer_noeud_liste : supprime le noeud donné de la liste. Si le noeud n'est pas dans la liste,
@@ -126,7 +129,7 @@ void inserer_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud, T_noeud precede
  * @param liste [in,out] liste à modifier
  * @param noeud noeud à supprimer de liste
  */
-void supprimer_noeud_liste(liste_noeud_t liste_ptr, T_noeud noeud);
+void supprimer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud);
 
 
 
