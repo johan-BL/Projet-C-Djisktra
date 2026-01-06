@@ -9,40 +9,40 @@
 
 coord_t creer_coord (int abs, int ord) {
     coord_t coord;
-    coord.abscisse = abs;
-    coord.ordonnee = ord;
+    coord.x = abs;
+    coord.y = ord;
     return coord;
 }
 
 int get_x (coord_t coord) {
-    return coord.abscisse;
+    return coord.x;
 }
 
 int get_y (coord_t coord) {
-    return coord.ordonnee;
+    return coord.y;
 }
 
 void set_x (coord_t *coord, int x) {
-    coord->abscisse = x;
+    coord->x = x;
 }
 
 void set_y (coord_t *coord, int y) {
-    coord->ordonnee = y;
+    coord->y = y;
 }
 
 bool memes_coord (coord_t coord1, coord_t coord2) {
-    return (coord1.abscisse == coord2.abscisse) && (coord1.ordonnee == coord2.ordonnee);
+    return (coord1.x == coord2.x) && (coord1.y == coord2.y);
         }
 
 coord_t translation (coord_t coord, int dx, int dy) {
-    coord.abscisse += dx;
-    coord.ordonnee += dy;
+    coord.x += dx;
+    coord.y += dy;
     return coord;
 }
 
 float distance_euclidienne (coord_t coord1, coord_t coord2) {
     float dist;
-    dist = ((coord2.abscisse - coord1.abscisse)*(coord2.abscisse - coord1.abscisse)) + ((coord2.ordonnee - coord1.ordonnee)*(coord2.ordonnee - coord1.ordonnee));
+    dist = ((coord2.x - coord1.x)*(coord2.x - coord1.x)) + ((coord2.y - coord1.y)*(coord2.y - coord1.y));
     dist = sqrt(dist);
     return dist;
 }

@@ -15,7 +15,7 @@
  * @return position dans le tableau en coordonnée linéaire
  */
 static size_t coord_lin(grille_t grille, coord_t position) {
-    return (position.ordonnee * grille.largeur) + position.abscisse;
+    return (position.y * grille.largeur) + position.x;
 }
 
 grille_t creer_grille(int largeur, int profondeur) {
@@ -35,7 +35,7 @@ void detruire_grille(grille_t grille) {
 }
 
 bool dans_les_bornes(grille_t grille, coord_t position) {
-    return (position.abscisse <= grille.largeur - 1) && (position.ordonnee <= grille.profondeur - 1) && (position.abscisse >= 0) && (position.ordonnee >= 0);
+    return (position.x <= grille.largeur - 1) && (position.y <= grille.profondeur - 1) && (position.x >= 0) && (position.y >= 0);
 }
 
 int get_largeur(grille_t grille) {
@@ -49,8 +49,8 @@ int get_profondeur(grille_t grille) {
 coord_t inferieur_gauche(grille_t grille) {
     coord_t coord;
     if ((grille.largeur > 0) && (grille.profondeur > 0)) {
-        coord.abscisse = 0;
-        coord.ordonnee = 0;}
+        coord.x = 0;
+        coord.y = 0;}
     else {
         NULL;}
     return coord;
@@ -59,8 +59,8 @@ coord_t inferieur_gauche(grille_t grille) {
 coord_t superieur_droit(grille_t grille) {
     coord_t coord;
     if ((grille.largeur > 0) && (grille.profondeur > 0)) {
-        coord.abscisse = grille.largeur - 1;
-        coord.ordonnee = grille.profondeur - 1;}
+        coord.x = grille.largeur - 1;
+        coord.y = grille.profondeur - 1;}
     else {
         NULL;}
     return coord;
