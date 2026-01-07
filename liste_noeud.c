@@ -6,15 +6,15 @@
 /* TODO */
 
 // implementation de l'enregistrement' T_Cellule
-struct T_Cellule {
+struct cellule_t {
     coord_t noeud;
     double cout;
     coord_t precedent;
-    struct T_Cellule* suivant;
+    struct cellule_t* suivant;
 };
 
-liste_noeud_t creer_liste() {
-    liste_noeud_t seed = (liste_noeud_t)malloc(sizeof(struct T_Cellule));
+liste_noeud_t* creer_liste() {
+    liste_noeud_t* seed = (liste_noeud_t*)malloc(sizeof(liste_noeud_t));
     seed->noeud = (coord_t){-1,-1};
     seed->cout = INFINITY;
     seed->precedent = (coord_t){-1,-1};
@@ -22,19 +22,24 @@ liste_noeud_t creer_liste() {
     return seed;
 }
 
-void detruire_liste(liste_noeud_t liste_ptr) {
+void detruire_liste(liste_noeud_t** liste_ptr) {
     if (liste_ptr == NULL) {
         return;
     }
-    liste_noeud_t courant = liste_ptr;
+    if (*liste_ptr == NULL) {
+        return;
+    }
+    liste_noeud_t* courant = (*liste_ptr)->suivant;
     while (courant != NULL) {
-        liste_noeud_t a_supprimer = courant;
+        liste_noeud_t* a_supprimer = courant;
         courant = courant->suivant;
         free (a_supprimer);
     }
+    free (*liste_ptr);
+    *liste_ptr = NULL;
 }
 
-bool est_vide_liste(const liste_noeud_t liste_ptr) {
+bool est_vide_liste(const liste_noeud_t* liste_ptr) {
     if (liste_ptr == NULL) {
         return false;
     }
@@ -46,11 +51,11 @@ bool est_vide_liste(const liste_noeud_t liste_ptr) {
     }
 }
 
-bool contient_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
+bool contient_noeud_liste(const liste_noeud_t* liste_ptr, coord_t noeud) {
     if (liste_ptr == NULL) {
         return false;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
+    liste_noeud_t* courant = liste_ptr->suivant;
     while (courant != NULL && (!memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
     }
@@ -62,12 +67,12 @@ bool contient_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
     }
 }
 
-bool contient_arrete_liste (const liste_noeud_t liste_ptr, T_arrete arrete) {
+bool contient_arrete_liste (const liste_noeud_t* liste_ptr, coord_t source, coord_t destination) {
     if (liste_ptr == NULL) {
         return false;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
-    while (courant != NULL && !((memes_coord (courant->precedent, arrete.source)) && (memes_coord (courant->noeud, arrete.destination)))) {
+    liste_noeud_t* courant = liste_ptr->suivant;
+    while (courant != NULL && !((memes_coord (courant->precedent, source)) && (memes_coord (courant->noeud, destination)))) {
         courant = courant->suivant;
     }
     if (courant == NULL) {
@@ -78,12 +83,12 @@ bool contient_arrete_liste (const liste_noeud_t liste_ptr, T_arrete arrete) {
     }
 }
 
-double cout_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
+double cout_noeud_liste(const liste_noeud_t* liste_ptr, coord_t noeud) {
     double cout = INFINITY;
     if (liste_ptr == NULL) {
         return cout;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
+    liste_noeud_t* courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
     }
@@ -94,12 +99,12 @@ double cout_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
     return cout;
 }
 
-coord_t precedent_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
+coord_t precedent_noeud_liste(const liste_noeud_t* liste_ptr, coord_t noeud) {
     coord_t precedent = (coord_t){-1,-1};
     if (liste_ptr == NULL) {
         return precedent;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
+    liste_noeud_t* courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
     }
@@ -110,13 +115,13 @@ coord_t precedent_noeud_liste(const liste_noeud_t liste_ptr, coord_t noeud) {
     return precedent;
 }
 
-coord_t min_noeud_liste(const liste_noeud_t liste_ptr) {
+coord_t min_noeud_liste(const liste_noeud_t* liste_ptr) {
     double min = INFINITY;
     coord_t noeud_min = (coord_t){-1,-1};
     if (liste_ptr == NULL) {
         return noeud_min;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
+    liste_noeud_t* courant = liste_ptr->suivant;
     while (courant != NULL) {
         if (courant->cout < min) {
             min = courant->cout;
@@ -128,11 +133,11 @@ coord_t min_noeud_liste(const liste_noeud_t liste_ptr) {
     return noeud_min;
 }
 
-void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precedent, double cout) {
+void inserer_noeud_liste(liste_noeud_t* liste_ptr, coord_t noeud, coord_t precedent, double cout) {
     if (liste_ptr == NULL) {
-        return return;
+        return;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
+    liste_noeud_t* courant = liste_ptr->suivant;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         courant = courant->suivant;
     }
@@ -141,7 +146,7 @@ void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precede
         courant->cout = cout;
     }
     else {
-        courant = (liste_noeud_t)malloc(sizeof(struct T_Cellule));
+        courant = (liste_noeud_t*)malloc(sizeof(liste_noeud_t));
         courant->noeud = noeud;
         courant->cout = cout;
         courant->precedent = precedent;
@@ -150,12 +155,12 @@ void inserer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud, coord_t precede
     }
 }
 
-void supprimer_noeud_liste(liste_noeud_t liste_ptr, coord_t noeud) {
+void supprimer_noeud_liste(liste_noeud_t* liste_ptr, coord_t noeud) {
     if (liste_ptr == NULL) {
-        return return;
+        return;
     }
-    liste_noeud_t courant = liste_ptr->suivant;
-    liste_noeud_t precedent = NULL;
+    liste_noeud_t* courant = liste_ptr->suivant;
+    liste_noeud_t* precedent = NULL;
     while (courant != NULL && !(memes_coord (courant->noeud, noeud))) {
         precedent = courant;
         courant = courant->suivant;

@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 struct coord_t {
-    int abscisse;
-    int ordonnee;
+    int x;
+    int y;
 };
 
 typedef struct coord_t coord_t;
