@@ -139,14 +139,18 @@ size_t get_voisins(grille_t grille, coord_t position, float seuil, coord_t** voi
     else {
         NULL;}
     
-    *voisins = (coord_t*)calloc(nb_voisins, sizeof(coord_t));
-    if (*voisins == NULL) {
-        NULL;}
-    else {
-        for (size_t i = 0; i < nb_voisins; i++) {
-            (*voisins)[i] = voisins_valides[i];
+    if (nb_voisins != 0) {
+        *voisins = (coord_t*)calloc(nb_voisins, sizeof(coord_t));
+        if (*voisins == NULL) {
+            NULL;}
+        else {
+            for (size_t i = 0; i < nb_voisins; i++) {
+                (*voisins)[i] = voisins_valides[i];
+            }
         }
     }
+    else {
+        NULL;}
     
     return nb_voisins;
 }
